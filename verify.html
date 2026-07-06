@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بطاقة طالب موثقة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1739;
+  --navy-2:#0f2050;
+  --navy-3:#152a63;
+  --teal:#14b8a6;
+  --teal-dark:#0d9488;
+  --teal-light:#5eead4;
+  --text:#1c2338;
+  --muted:#6b7583;
+  --border:#e6e9f2;
+  --success:#22c55e;
+  --warning:#f59e0b;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;min-height:100%;}
+body{
+  font-family:'Cairo',sans-serif;
+  background:radial-gradient(circle at 30% 15%, var(--navy-3), var(--navy) 65%);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+}
+.card{
+  background:#fff;
+  width:100%;
+  max-width:440px;
+  border-radius:22px;
+  box-shadow:0 25px 60px rgba(0,0,0,.35);
+  overflow:hidden;
+  animation:riseIn .5s ease;
+}
+@keyframes riseIn{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+.card-head{
+  background:radial-gradient(circle at 25% 20%, var(--navy-3), var(--navy) 80%);
+  color:#fff;
+  padding:30px 24px 24px;
+  text-align:center;
+  position:relative;
+}
+.ring{
+  width:74px;height:74px;border-radius:50%;
+  border:3px solid var(--teal);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 12px;
+  box-shadow:0 0 30px rgba(20,184,166,.35);
+}
+.ring span{font-size:32px;color:var(--teal-light);}
+.school-name{font-weight:800;font-size:15px;line-height:1.5;letter-spacing:.3px;}
+.card-title{
+  margin-top:8px;font-weight:700;font-size:13px;color:#9fb3e8;
+}
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:14px;
+  background:rgba(34,197,94,.15);
+  border:1px solid rgba(34,197,94,.4);
+  color:var(--teal-light);
+  padding:6px 14px;border-radius:999px;
+  font-size:12px;font-weight:700;
+}
+.card-body{padding:24px;}
+.student-name{
+  font-size:20px;font-weight:800;text-align:center;margin-bottom:2px;
+}
+.student-no{
+  text-align:center;color:var(--muted);font-size:13px;margin-bottom:20px;
+}
+.grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.field{
+  background:#f2f4fa;border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;
+}
+.field.full{grid-column:1/-1;}
+.field label{
+  display:block;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:3px;
+}
+.field .val{font-size:14px;font-weight:700;color:var(--text);}
+.field.warn .val{color:var(--warning);}
+.field.ok .val{color:var(--teal-dark);}
+.footer{
+  text-align:center;padding:16px 24px 22px;color:var(--muted);font-size:11px;border-top:1px dashed var(--border);
+}
+.error-card{
+  padding:40px 26px;text-align:center;
+}
+.error-card .ico{font-size:44px;}
+.error-card h2{margin:14px 0 6px;font-size:17px;}
+.error-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="card" id="card"></div>
+
+<script>
+function b64DecodeUnicode(str){
+  return decodeURIComponent(Array.prototype.map.call(atob(str), c =>
+    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  ).join(''));
+}
+
+function renderError(msg){
+  document.getElementById('card').innerHTML = `
+    <div class="error-card">
+      <div class="ico">⚠️</div>
+      <h2>رمز غير صالح</h2>
+      <p>${msg}</p>
+    </div>`;
+}
+
+function renderStudent(d){
+  const att = (d.a!=null) ? d.a+'%' : 'غير مسجل';
+  const grd = (d.g!=null) ? d.g+'%' : 'غير مسجل';
+  const instClass = d.il==='مسدد بالكامل' ? 'ok' : (d.il==='جزئي' ? 'warn' : '');
+  document.getElementById('card').innerHTML = `
+    <div class="card-head">
+      <div class="ring"><span>🎓</span></div>
+      <div class="school-name">${d.sc||''}</div>
+      <div class="card-title">بطاقة طالب موثقة</div>
+      <div class="badge">✔ APPROVED</div>
+    </div>
+    <div class="card-body">
+      <div class="student-name">${d.n||'-'}</div>
+      <div class="student-no">الرقم: ${d.no||'-'}</div>
+      <div class="grid">
+        <div class="field"><label>الصف</label><div class="val">${d.c||'-'}</div></div>
+        <div class="field"><label>الشعبة</label><div class="val">${d.se||'-'}</div></div>
+        <div class="field"><label>الحضور</label><div class="val">${att}</div></div>
+        <div class="field"><label>المعدل</label><div class="val">${grd}</div></div>
+        <div class="field full ${instClass}"><label>حالة الأقساط</label><div class="val">${d.il||'-'}</div></div>
+        ${d.p ? `<div class="field full"><label>ولي الأمر</label><div class="val">${d.p}</div></div>` : ''}
+      </div>
+    </div>
+    <div class="footer">تم التحقق إلكترونيًا • ${new Date().toLocaleDateString('ar-IQ')}</div>
+  `;
+}
+
+(function(){
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('d');
+    if(!raw){ renderError('لم يتم العثور على بيانات في هذا الرمز.'); return; }
+    const json = b64DecodeUnicode(decodeURIComponent(raw));
+    const data = JSON.parse(json);
+    renderStudent(data);
+  }catch(e){
+    renderError('تعذّرت قراءة بيانات هذه البطاقة. جرّب مسح الرمز مرة أخرى.');
+  }
+})();
+</script>
+</body>
+</html>
