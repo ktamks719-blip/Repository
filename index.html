@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بطاقة طالب موثقة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#15120d;
+  --ink-2:#1d1912;
+  --panel:#211c14;
+  --gold:#c9a24c;
+  --gold-light:#f0d68f;
+  --gold-deep:#8a6d2f;
+  --cream:#f2e9d8;
+  --cream-dim:#b9ac91;
+  --line: rgba(201,162,76,.35);
+  --ok:#8fd4a8;
+  --warn:#e8b467;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  min-height:100vh;
+  font-family:'Cairo',sans-serif;
+  color:var(--cream);
+  background:
+    radial-gradient(circle at 50% -10%, rgba(201,162,76,.10), transparent 55%),
+    radial-gradient(circle at 85% 110%, rgba(201,162,76,.07), transparent 50%),
+    var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 18px;
+}
+
+.frame{
+  position:relative;
+  width:100%;max-width:440px;
+}
+
+/* زوايا زخرفية توحي بإطار شهادة رسمية */
+.corner{position:absolute;width:26px;height:26px;border:1.5px solid var(--gold);opacity:.65;}
+.corner.tl{top:-8px;right:-8px;border-left:none;border-bottom:none;}
+.corner.tr{top:-8px;left:-8px;border-right:none;border-bottom:none;}
+.corner.bl{bottom:-8px;right:-8px;border-left:none;border-top:none;}
+.corner.br{bottom:-8px;left:-8px;border-right:none;border-top:none;}
+
+.card{
+  position:relative;
+  background:linear-gradient(180deg, var(--panel), var(--ink-2));
+  border:1px solid var(--line);
+  border-radius:6px;
+  box-shadow:0 30px 70px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.02);
+  padding:2px;
+  animation:riseIn .55s ease;
+}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+.card-inner{
+  border:1px solid var(--line);
+  border-radius:4px;
+  padding:34px 28px 26px;
+  position:relative;
+  overflow:hidden;
+}
+
+/* الختم الذهبي المائل - العنصر المميز */
+.seal{
+  position:absolute;top:18px;left:18px;
+  width:64px;height:64px;
+  transform:rotate(-14deg);
+  z-index:3;
+}
+.seal .ring{
+  width:100%;height:100%;border-radius:50%;
+  border:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle, rgba(201,162,76,.12), transparent 70%);
+  position:relative;
+}
+.seal .ring::before{
+  content:'';position:absolute;inset:5px;border-radius:50%;
+  border:1px dashed rgba(201,162,76,.6);
+}
+.seal .txt{
+  font-family:'Amiri',serif;font-weight:700;font-size:11px;color:var(--gold-light);
+  text-align:center;line-height:1.15;letter-spacing:.5px;
+}
+
+.head{text-align:center;padding-top:6px;}
+.medal{
+  width:76px;height:76px;margin:0 auto 14px;border-radius:50%;
+  border:1.5px solid var(--gold);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  background:radial-gradient(circle at 40% 30%, rgba(240,214,143,.15), transparent 70%);
+}
+.medal::after{
+  content:'';position:absolute;inset:-7px;border-radius:50%;
+  border:1px solid rgba(201,162,76,.35);
+}
+.medal span{font-size:30px;filter:drop-shadow(0 0 6px rgba(201,162,76,.4));}
+
+.school-name{
+  font-family:'Amiri',serif;font-weight:700;font-size:19px;color:var(--gold-light);
+  line-height:1.5;letter-spacing:.2px;
+}
+.divider{
+  display:flex;align-items:center;gap:10px;margin:14px auto 4px;width:70%;
+}
+.divider .ln{flex:1;height:1px;background:linear-gradient(90deg, transparent, var(--gold), transparent);}
+.divider .dot{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);}
+
+.kicker{
+  font-size:11.5px;color:var(--cream-dim);letter-spacing:2px;margin-top:8px;
+}
+
+.student-block{text-align:center;margin-top:26px;}
+.student-name{font-family:'Amiri',serif;font-size:23px;font-weight:700;color:var(--cream);}
+.student-no{
+  margin-top:4px;font-size:12.5px;color:var(--gold);letter-spacing:1.5px;
+}
+
+.rule{height:1px;margin:22px 0 4px;background:linear-gradient(90deg, transparent, var(--line) 15%, var(--line) 85%, transparent);}
+
+.rows{margin-top:6px;}
+.row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:13px 2px;border-bottom:1px solid rgba(201,162,76,.14);
+}
+.row:last-child{border-bottom:none;}
+.row .lbl{font-size:12.5px;color:var(--cream-dim);letter-spacing:.5px;}
+.row .val{font-size:14.5px;font-weight:700;color:var(--cream);}
+.row .val.gold{color:var(--gold-light);}
+.row .val.ok{color:var(--ok);}
+.row .val.warn{color:var(--warn);}
+
+.pair{display:flex;gap:22px;}
+.pair .row{flex:1;}
+
+.foot{
+  text-align:center;margin-top:24px;padding-top:16px;
+  border-top:1px dashed rgba(201,162,76,.3);
+  font-size:11px;color:var(--cream-dim);letter-spacing:.5px;
+}
+.foot .stamp{color:var(--gold);font-weight:700;}
+
+.error-card{text-align:center;padding:20px 6px;}
+.error-card .ico{font-size:40px;filter:grayscale(1) opacity(.8);}
+.error-card h2{font-family:'Amiri',serif;font-size:19px;margin:14px 0 6px;color:var(--gold-light);}
+.error-card p{margin:0;color:var(--cream-dim);font-size:13px;line-height:1.8;}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="corner tl"></div><div class="corner tr"></div>
+  <div class="corner bl"></div><div class="corner br"></div>
+  <div class="card"><div class="card-inner" id="card"></div></div>
+</div>
+
+<script>
+function b64DecodeUnicode(str){
+  return decodeURIComponent(Array.prototype.map.call(atob(str), c =>
+    '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+  ).join(''));
+}
+
+function renderError(msg){
+  document.getElementById('card').innerHTML = `
+    <div class="error-card">
+      <div class="ico">⚠</div>
+      <h2>رمز غير صالح</h2>
+      <p>${msg}</p>
+    </div>`;
+}
+
+function renderStudent(d){
+  const att = (d.a!=null) ? d.a+'%' : 'غير مسجل';
+  const grd = (d.g!=null) ? d.g+'%' : 'غير مسجل';
+  const instClass = d.il==='مسدد بالكامل' ? 'ok' : (d.il==='جزئي' ? 'warn' : '');
+  document.getElementById('card').innerHTML = `
+    <div class="seal">
+      <div class="ring"><div class="txt">موثّق<br>رسميًا</div></div>
+    </div>
+    <div class="head">
+      <div class="medal"><span>🎓</span></div>
+      <div class="school-name">${d.sc||''}</div>
+      <div class="divider"><div class="ln"></div><div class="dot"></div><div class="ln"></div></div>
+      <div class="kicker">بطاقة تحقق رسمية</div>
+    </div>
+
+    <div class="student-block">
+      <div class="student-name">${d.n||'-'}</div>
+      <div class="student-no">رقم الطالب: ${d.no||'-'}</div>
+    </div>
+
+    <div class="rule"></div>
+
+    <div class="rows">
+      <div class="pair">
+        <div class="row"><span class="lbl">الصف</span><span class="val">${d.c||'-'}</span></div>
+        <div class="row"><span class="lbl">الشعبة</span><span class="val">${d.se||'-'}</span></div>
+      </div>
+      <div class="pair">
+        <div class="row"><span class="lbl">نسبة الحضور</span><span class="val gold">${att}</span></div>
+        <div class="row"><span class="lbl">المعدل</span><span class="val gold">${grd}</span></div>
+      </div>
+      <div class="row"><span class="lbl">حالة الأقساط</span><span class="val ${instClass}">${d.il||'-'}</span></div>
+      ${d.p ? `<div class="row"><span class="lbl">ولي الأمر</span><span class="val">${d.p}</span></div>` : ''}
+    </div>
+
+    <div class="foot"><span class="stamp">✔ تم التحقق إلكترونيًا</span> • ${new Date().toLocaleDateString('ar-IQ')}</div>
+  `;
+}
+
+(function(){
+  try{
+    const params = new URLSearchParams(window.location.search);
+    const raw = params.get('d');
+    if(!raw){ renderError('لم يتم العثور على بيانات في هذا الرمز.'); return; }
+    const json = b64DecodeUnicode(decodeURIComponent(raw));
+    const data = JSON.parse(json);
+    renderStudent(data);
+  }catch(e){
+    renderError('تعذّرت قراءة بيانات هذه البطاقة. جرّب مسح الرمز مرة أخرى.');
+  }
+})();
+</script>
+</body>
+</html>
